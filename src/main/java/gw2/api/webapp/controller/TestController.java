@@ -1,6 +1,6 @@
 package gw2.api.webapp.controller;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ public class TestController {
 	@RequestMapping("/test")
 	@ResponseBody
 	public Map<String, String> testMap() {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new LinkedHashMap<String, String>();
 		String dbHost = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 		String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
 		result.put("foo", "bar");
