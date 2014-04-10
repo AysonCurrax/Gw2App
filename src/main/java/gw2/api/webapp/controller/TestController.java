@@ -15,6 +15,7 @@ public class TestController {
 	@ResponseBody
 	public Map<String, String> testMap() {
 		Map<String, String> result = new LinkedHashMap<String, String>();
+		/*
 		String dbHost = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 		String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
 		String dbUser = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
@@ -24,6 +25,7 @@ public class TestController {
 		result.put(dbHost, dbPort);
 		result.put(dbUser, dbPass);
 		result.put(dbUrl, "ok");
+		*/
 		return result;
 	}
 }
