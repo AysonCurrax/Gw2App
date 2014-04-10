@@ -15,7 +15,10 @@ public class TestController {
 	@ResponseBody
 	public Map<String, String> testMap() {
 		Map<String, String> result = new HashMap<String, String>();
+		String dbHost = System.getenv("$OPENSHIFT_MYSQL_DB_HOST");
+		String dbPort = System.getenv("$OPENSHIFT_MYSQL_DB_PORT");
 		result.put("foo", "bar");
+		result.put(dbHost, dbPort);
 		return result;
 	}
 }
