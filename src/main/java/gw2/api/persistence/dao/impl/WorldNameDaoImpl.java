@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import gw2.api.persistence.dao.api.WorldNameDao;
 import gw2.api.persistence.domain.WorldName;
@@ -17,7 +17,7 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	
 	public List<WorldName> getAllWorldNames() {
 		List<WorldName> result = new ArrayList<WorldName>();
-		Query query = em.createQuery("SELECT w FROM WorldName w", WorldName.class);
+		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w", WorldName.class);
 		result = query.getResultList();
 		return result;
 	}
