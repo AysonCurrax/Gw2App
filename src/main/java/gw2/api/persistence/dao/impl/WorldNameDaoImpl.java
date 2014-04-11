@@ -17,8 +17,8 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	
 	public List<WorldName> getAllWorldNames() {
 		List<WorldName> result = new ArrayList<WorldName>();
-		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w", WorldName.class);
-		result = query.getResultList();
+		//TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w", WorldName.class);
+		//result = query.getResultList();
 		return result;
 	}
 }
