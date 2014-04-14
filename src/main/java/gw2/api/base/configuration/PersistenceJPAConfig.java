@@ -57,7 +57,7 @@ public class PersistenceJPAConfig {
 	Properties additionalProperties() {
 		return new Properties() {
 			{
-				setProperty("hibernate.hbm2ddl.auto", "create-drop");
+				setProperty("hibernate.hbm2ddl.auto", "update");
 				setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 			}
 		};
