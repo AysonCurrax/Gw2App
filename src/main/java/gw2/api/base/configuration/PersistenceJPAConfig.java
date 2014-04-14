@@ -37,7 +37,14 @@ public class PersistenceJPAConfig {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		//dataSource.setUrl("jdbc:mysql://localhost:3306/gw2app");
-		dataSource.setUrl(System.getenv("OPENSHIFT_MYSQL_DB_URL"));
+		StringBuilder builder = new StringBuilder();
+		builder.append("jdbc:mysql://");
+		builder.append(System.getenv("OPENSHIFT_MYSQL_DB_HOST"));
+		builder.append(":");
+		builder.append(System.getenv("OPENSHIFT_MYSQL_DB_PORT"));
+		builder.append("/");
+		builder.append(System.getenv("OPENSHIFT_APP_NAME"));
+		dataSource.setUrl(builder.toString());
 		//dataSource.setUsername("root");
 		dataSource.setUsername(System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"));
 		//dataSource.setPassword("password");
