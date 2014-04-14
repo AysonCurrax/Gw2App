@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/api/v1")
 public class TestController {
-
+	
+	private Logger logger = LoggerFactory.getLogger(TestController.class);
 	@Autowired
 	ServiceFacade services;
 	
 	@RequestMapping("/test")
 	@ResponseBody
 	public Map<String, String> testMap() {
+		
 		Map<String, String> result = new LinkedHashMap<String, String>();
 		/*
 		String dbHost = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
@@ -33,7 +39,9 @@ public class TestController {
 		*/
 		for(int i=0;i<50;i++) {
 			result.put("foo"+i, "bar"+i);
+			logger.debug("{} : {} added.", "foo"+i, "bar"+i);
 		}
+		
 		/*
 		result.put("foo", "bar");
 		result.put(dbHost, dbPort);

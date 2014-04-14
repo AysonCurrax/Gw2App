@@ -7,9 +7,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Repository;
+
 import gw2.api.persistence.dao.api.WorldNameDao;
 import gw2.api.persistence.domain.WorldName;
 
+@Repository
 public class WorldNameDaoImpl implements WorldNameDao{
 
 	@PersistenceContext
