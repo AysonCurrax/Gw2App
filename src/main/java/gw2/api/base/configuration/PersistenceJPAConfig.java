@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
-		
+	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -32,11 +32,11 @@ public class PersistenceJPAConfig {
 		return em;
 	}
 	
+	
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		//dataSource.setUrl("jdbc:mysql://localhost:3306/gw2app");
 		StringBuilder builder = new StringBuilder();
 		builder.append("jdbc:mysql://");
 		builder.append(System.getenv("OPENSHIFT_MYSQL_DB_HOST"));
@@ -45,9 +45,7 @@ public class PersistenceJPAConfig {
 		builder.append("/");
 		builder.append(System.getenv("OPENSHIFT_APP_NAME"));
 		dataSource.setUrl(builder.toString());
-		//dataSource.setUsername("root");
 		dataSource.setUsername(System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"));
-		//dataSource.setPassword("password");
 		dataSource.setPassword(System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"));
 		return dataSource;
 	}

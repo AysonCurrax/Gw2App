@@ -8,12 +8,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TestController {
 	
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
+	
 	@Autowired
 	ServiceFacade services;
 	
@@ -30,24 +32,10 @@ public class TestController {
 	public Map<String, String> testMap() {
 		
 		Map<String, String> result = new LinkedHashMap<String, String>();
-		/*
-		String dbHost = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-		String dbPort = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
-		String dbUser = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-		String dbPass = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-		String dbUrl = System.getenv("OPENSHIFT_MYSQL_DB_URL");
-		*/
 		for(int i=0;i<50;i++) {
 			result.put("foo"+i, "bar"+i);
 			logger.debug("{} : {} added.", "foo"+i, "bar"+i);
 		}
-		
-		/*
-		result.put("foo", "bar");
-		result.put(dbHost, dbPort);
-		result.put(dbUser, dbPass);
-		result.put(dbUrl, "ok");
-		*/
 		return result;
 	}
 	
@@ -57,5 +45,37 @@ public class TestController {
 		List<WorldName> result = new ArrayList<WorldName>();
 		result = services.getAllWorldNames();
 		return result;
+	}
+	
+	@Transactional
+	@RequestMapping("/testInsert/{id}/{lang}/{name}")
+	@ResponseBody
+	public String testInsert(@PathVariable String id, @PathVariable String lang, @PathVariable String name) {
+		services.insertIntoWorlds(id, lang, name);
+		return "Eintrag hinzugefügt.";
+	}
+	
+	@Transactional
+	@RequestMapping("/testDelete/{id}/{lang}")
+	@ResponseBody
+	public String testDelete(@PathVariable String id, @PathVariable String lang) {
+		services.deleteFromWorlds(id, lang);
+		return "Eintrag gelöscht.";
+	}
+	
+	@Transactional
+	@RequestMapping("/update")
+	@ResponseBody
+	public String updateTable() {
+		services.update();
+		return "updated.";
+	}
+	
+	@Transactional
+	@RequestMapping("/delete")
+	@ResponseBody
+	public String deleteTable() {
+		services.delete();
+		return "deleted.";
 	}
 }

@@ -11,29 +11,8 @@
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
-	
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>  
 	<mvc:annotation-driven/>
-	<task:annotation-driven/>
 	<context:component-scan base-package="gw2.api" />
 	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-	<!-- 
-	<bean class="gw2.api.service.impl.ServiceFacadeImpl"/>
-	 -->
-	<!-- 
-	<bean class="gw2.api.persistence.dao.impl.WorldNameDaoImpl"/>
-	 -->
-	<!--
-	<bean class="gw2.api.webapp.json.impl.dao.WorldNameDaoImpl"/>
-	<bean class="gw2.api.webapp.json.impl.dao.MapNameDaoImpl"/>
-	<bean class="gw2.api.webapp.json.impl.dao.EventNameDaoImpl"/>
-	<bean class="gw2.api.webapp.json.impl.dao.EventDaoImpl"/>
-	<bean class="gw2.api.webapp.json.impl.dao.EventDetailDaoImpl"/>
-	
-	<bean class="gw2.api.webapp.model.Data"/>
-	-->
 </beans>
