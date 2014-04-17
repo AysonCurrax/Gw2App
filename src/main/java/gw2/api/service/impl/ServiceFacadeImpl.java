@@ -25,6 +25,21 @@ public class ServiceFacadeImpl implements ServiceFacade{
 	}
 	
 	@Override
+	public List<WorldName> getWorldNamesByLanguage(String lang) {
+		return worldNameDao.getWorldNamesByLanguage(lang);
+	}
+	
+	@Override
+	public List<WorldName> getWorldNamesById(String id) {
+		return worldNameDao.getWorldNamesById(id);
+	}
+	
+	@Override
+	public WorldName getWorldName(String id, String lang) {
+		return worldNameDao.getWorldName(id, lang);
+	}
+	
+	@Override
 	public void insertIntoWorlds(String id, String lang, String name) {
 		worldNameDao.insertIntoWorlds(id, lang, name);
 	}

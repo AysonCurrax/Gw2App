@@ -28,6 +28,31 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	}
 	
 	@Override
+	public List<WorldName> getWorldNamesByLanguage(String lang) {
+		List<WorldName> result = new ArrayList<WorldName>();
+		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w WHERE w.lang=:lang", WorldName.class);
+		query.setParameter("lang", lang);
+		result = query.getResultList();
+		return result;
+	}
+	
+	@Override
+	public List<WorldName> getWorldNamesById(String id) {
+		List<WorldName> result = new ArrayList<WorldName>();
+		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w WHERE w.id=:id", WorldName.class);
+		query.setParameter("id", id);
+		result = query.getResultList();
+		return result;
+	}
+	
+	@Override
+	public WorldName getWorldName(String id, String lang) {
+		WorldNameId wid = new WorldNameId(id, lang);
+		WorldName result = em.find(WorldName.class, wid);
+		return result;
+	}
+	
+	@Override
 	public void insertIntoWorlds(String id, String lang, String name) {
 		WorldNameId wid = new WorldNameId(id, lang);
 		WorldName world = em.find(WorldName.class, wid);

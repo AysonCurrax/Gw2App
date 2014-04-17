@@ -20,12 +20,9 @@ public class JSONRequest {
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	public List<WorldName> send(String url) {
-		List<WorldName> result = new ArrayList<WorldName>();
-		List<WorldName> list = null;
+		List<WorldName> list = new ArrayList<WorldName>();
 		String json = null;
-		String[] langs= {"de","en","fr","es"};
-		for(String lang : langs) {
-			json = rest.getForObject(url+lang, String.class);
+			json = rest.getForObject(url, String.class);
 			try {
 				JsonNode node = mapper.readTree(json);
 				list = mapper.readValue(node.traverse(), new TypeReference<List<WorldName>>() {
@@ -33,11 +30,6 @@ public class JSONRequest {
 			} catch (IOException e) {
 				e.getMessage();
 			}
-			for(WorldName world : list) {
-				world.setLang(lang);
-			}
-			result.addAll(list);
-		}
-		return result;	
+		return list;	
 	}
 }

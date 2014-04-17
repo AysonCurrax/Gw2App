@@ -47,6 +47,24 @@ public class TestController {
 		return result;
 	}
 	
+	@RequestMapping("/testGetById/{id}")
+	@ResponseBody
+	public List<WorldName> testGetById(@PathVariable String id) {
+		return services.getWorldNamesById(id);
+	}
+	
+	@RequestMapping("/testGetByLang/{lang}")
+	@ResponseBody
+	public List<WorldName> testGetByLang(@PathVariable String lang) {
+		return services.getWorldNamesByLanguage(lang);
+	}
+	
+	@RequestMapping("/testGetSingle/{lang}/{id}")
+	@ResponseBody
+	public WorldName testGetSingle(@PathVariable String lang, @PathVariable String id) {
+		return services.getWorldName(id, lang);
+	}
+	
 	@Transactional
 	@RequestMapping("/testInsert/{id}/{lang}/{name}")
 	@ResponseBody
