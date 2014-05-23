@@ -6,12 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import gw2.api.persistence.dao.api.WorldNameDao;
-import gw2.api.persistence.domain.WorldName;
-import gw2.api.persistence.domain.WorldName.WorldNameId;
+import gw2.api.persistence.domain.WorldNameEN;
 
 @Repository
 public class WorldNameDaoImpl implements WorldNameDao{
@@ -20,46 +20,35 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	EntityManager em;
 	
 	@Override
-	public List<WorldName> getAllWorldNames() {
-		List<WorldName> result = new ArrayList<WorldName>();
-		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w", WorldName.class);
+	public List<WorldNameEN> getAllWorldNames() {
+		List<WorldNameEN> result = new ArrayList<WorldNameEN>();
+		TypedQuery<WorldNameEN> query = em.createQuery("SELECT w FROM WorldNameEN w", WorldNameEN.class);
 		result = query.getResultList();
 		return result;
 	}
 	
 	@Override
-	public List<WorldName> getWorldNamesByLanguage(String lang) {
-		List<WorldName> result = new ArrayList<WorldName>();
-		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w WHERE w.lang=:lang", WorldName.class);
-		query.setParameter("lang", lang);
-		result = query.getResultList();
-		return result;
-	}
-	
-	@Override
-	public List<WorldName> getWorldNamesById(String id) {
-		List<WorldName> result = new ArrayList<WorldName>();
-		TypedQuery<WorldName> query = em.createQuery("SELECT w FROM WorldName w WHERE w.id=:id", WorldName.class);
+	public List<WorldNameEN> getWorldNamesById(String id) {
+		List<WorldNameEN> result = new ArrayList<WorldNameEN>();
+		TypedQuery<WorldNameEN> query = em.createQuery("SELECT w FROM WorldNameEN w WHERE w.id=:id", WorldNameEN.class);
 		query.setParameter("id", id);
 		result = query.getResultList();
 		return result;
 	}
 	
 	@Override
-	public WorldName getWorldName(String id, String lang) {
-		WorldNameId wid = new WorldNameId(id, lang);
-		WorldName result = em.find(WorldName.class, wid);
+	public WorldNameEN getWorldName(String id) {
+		WorldNameEN result = em.find(WorldNameEN.class, id);
 		return result;
 	}
 	
 	@Override
-	public void insertIntoWorlds(String id, String lang, String name) {
-		WorldNameId wid = new WorldNameId(id, lang);
-		WorldName world = em.find(WorldName.class, wid);
+	@Transactional
+	public void insertIntoWorlds(String id, String name) {
+		WorldNameEN world = em.find(WorldNameEN.class, id);
 		if(world == null) {
-		world = new WorldName();
+		world = new WorldNameEN();
 		world.setId(id);
-		world.setLang(lang);
 		world.setName(name);
 		em.persist(world);
 		em.flush();
@@ -67,10 +56,10 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	}
 	
 	@Override
-	public void insertIntoWorlds(List<WorldName> list) {
-		for(WorldName w : list) {
-			WorldNameId wid = new WorldNameId(w.getId(), w.getLang());
-			WorldName world = em.find(WorldName.class, wid);
+	@Transactional
+	public void insertIntoWorlds(List<WorldNameEN> list) {
+		for(WorldNameEN w : list) {
+			WorldNameEN world = em.find(WorldNameEN.class, w.getId());
 			if(world == null) {
 			em.persist(w);
 			em.flush();
@@ -79,9 +68,9 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	}
 	
 	@Override
-	public void deleteFromWorlds(String id, String lang) {
-		WorldNameId wid = new WorldNameId(id, lang);
-		WorldName world = em.find(WorldName.class, wid);
+	@Transactional
+	public void deleteFromWorlds(String id) {
+		WorldNameEN world = em.find(WorldNameEN.class, id);
 		if(world != null) {
 			em.remove(world);
 			em.flush();
@@ -89,10 +78,10 @@ public class WorldNameDaoImpl implements WorldNameDao{
 	}
 	
 	@Override
-	public void deleteFromWorlds(List<WorldName> list) {
-		for(WorldName w : list) {
-			WorldNameId wid = new WorldNameId(w.getId(), w.getLang());
-			WorldName world = em.find(WorldName.class, wid);
+	@Transactional
+	public void deleteFromWorlds(List<WorldNameEN> list) {
+		for(WorldNameEN w : list) {
+			WorldNameEN world = em.find(WorldNameEN.class, w.getId());
 			if(world != null) {
 				em.remove(world);
 				em.flush();

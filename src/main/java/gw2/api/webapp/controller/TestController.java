@@ -1,7 +1,8 @@
 package gw2.api.webapp.controller;
 
-import gw2.api.persistence.domain.WorldName;
+import gw2.api.persistence.domain.WorldNameEN;
 import gw2.api.service.api.ServiceFacade;
+import gw2.api.webapp.model.TestData;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,15 +15,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/api/v1")
 public class TestController {
 	
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
+	
+	private List<TestData> dataList = new ArrayList<TestData>();
 	
 	@Autowired
 	ServiceFacade services;
@@ -41,47 +47,38 @@ public class TestController {
 	
 	@RequestMapping("/testService")
 	@ResponseBody
-	public List<WorldName> testService() {
-		List<WorldName> result = new ArrayList<WorldName>();
+	public List<WorldNameEN> testService() {
+		List<WorldNameEN> result = new ArrayList<WorldNameEN>();
 		result = services.getAllWorldNames();
 		return result;
 	}
 	
 	@RequestMapping("/testGetById/{id}")
 	@ResponseBody
-	public List<WorldName> testGetById(@PathVariable String id) {
+	public List<WorldNameEN> testGetById(@PathVariable String id) {
 		return services.getWorldNamesById(id);
 	}
 	
-	@RequestMapping("/testGetByLang/{lang}")
+	@RequestMapping("/testGetSingle/en/{id}")
 	@ResponseBody
-	public List<WorldName> testGetByLang(@PathVariable String lang) {
-		return services.getWorldNamesByLanguage(lang);
+	public WorldNameEN testGetSingle(@PathVariable String id) {
+		return services.getWorldName(id);
 	}
 	
-	@RequestMapping("/testGetSingle/{lang}/{id}")
+	@RequestMapping("/testInsert/{id}/en/{name}")
 	@ResponseBody
-	public WorldName testGetSingle(@PathVariable String lang, @PathVariable String id) {
-		return services.getWorldName(id, lang);
-	}
-	
-	@Transactional
-	@RequestMapping("/testInsert/{id}/{lang}/{name}")
-	@ResponseBody
-	public String testInsert(@PathVariable String id, @PathVariable String lang, @PathVariable String name) {
-		services.insertIntoWorlds(id, lang, name);
+	public String testInsert(@PathVariable String id, @PathVariable String name) {
+		services.insertIntoWorlds(id, name);
 		return "Eintrag hinzugefügt.";
 	}
 	
-	@Transactional
-	@RequestMapping("/testDelete/{id}/{lang}")
+	@RequestMapping("/testDelete/{id}/en")
 	@ResponseBody
-	public String testDelete(@PathVariable String id, @PathVariable String lang) {
-		services.deleteFromWorlds(id, lang);
+	public String testDelete(@PathVariable String id) {
+		services.deleteFromWorlds(id);
 		return "Eintrag gelöscht.";
 	}
 	
-	@Transactional
 	@RequestMapping("/update")
 	@ResponseBody
 	public String updateTable() {
@@ -89,11 +86,24 @@ public class TestController {
 		return "updated.";
 	}
 	
-	@Transactional
 	@RequestMapping("/delete")
 	@ResponseBody
 	public String deleteTable() {
 		services.delete();
 		return "deleted.";
+	}
+	
+	@RequestMapping(value = "/jspTest", method = RequestMethod.GET)
+	public ModelAndView handleJspTestRequest() {
+		ModelAndView model = new ModelAndView("JspTest");
+		model.addObject("dataList", dataList);
+		return model;
+	}
+	
+	@RequestMapping(value = "/jspTest", method = RequestMethod.POST)
+	@ResponseBody
+	public String jspTestPostResponse(@ModelAttribute("text") TestData test) {
+		dataList.add(test);
+		return "Your Value has been added.";
 	}
 }
